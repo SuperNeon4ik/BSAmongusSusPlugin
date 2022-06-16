@@ -108,6 +108,7 @@ namespace BSAmongusSusPlugin
                     );
                     source.Play();
                 }
+                StartCoroutine(AmongusJumpscareHandler.Instance.Jumpscare());
             }
         }
     }

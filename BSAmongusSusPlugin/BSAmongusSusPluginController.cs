@@ -41,6 +41,7 @@ namespace BSAmongusSusPlugin
 
             // Create Random Vineboom Handler
             new GameObject("Random Vineboom Handler").AddComponent<RandomVineboomHandler>();
+            new GameObject("Amongus Jumpscare Handler").AddComponent<AmongusJumpscareHandler>();
         }
 
         private void Start()
@@ -67,7 +68,7 @@ namespace BSAmongusSusPlugin
                 Directory.CreateDirectory(folderPath);
 
             AudioClip? clip = null;
-            if (File.Exists(Path.Combine(folderPath, "vineboom.ogg")))
+            if (File.Exists(Path.Combine(folderPath, "startup.ogg")))
             {
                 FileInfo fileInfo = new FileInfo(Path.Combine(folderPath, "startup.ogg"));
                 var web = GetRequest(fileInfo.FullName);
