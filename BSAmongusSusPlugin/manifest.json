@@ -1,12 +1,12 @@
 ﻿{
   "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
   "id": "BSAmongusSusPlugin",
-  "name": "BSAmongusSusPlugin",
-  "author": "",
+  "name": "AmongusSusPlugin",
+  "author": "SuperNeon4ik",
   "version": "0.0.1",
   "description": "",
-  "gameVersion": "1.18.3",
+  "gameVersion": "1.23.0",
   "dependsOn": {
-    "BSIPA": "^4.2.0"
+    "BSIPA": "^4.2.1"
   }
 }
