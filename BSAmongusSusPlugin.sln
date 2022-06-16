@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BSAmongusSusPlugin", "BSAmongusSusPlugin\BSAmongusSusPlugin.csproj", "{1B83697C-F42B-4109-8E91-041F656960EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1B83697C-F42B-4109-8E91-041F656960EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B83697C-F42B-4109-8E91-041F656960EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B83697C-F42B-4109-8E91-041F656960EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B83697C-F42B-4109-8E91-041F656960EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {47731DD0-C3FD-49C1-B3D4-5B56F5473C2B}
+	EndGlobalSection
+EndGlobal
