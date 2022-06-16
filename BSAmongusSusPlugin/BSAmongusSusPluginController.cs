@@ -40,8 +40,12 @@ namespace BSAmongusSusPlugin
 
 
             // Create Random Vineboom Handler
-            var rvh = new GameObject("Random Vineboom Handler").AddComponent<RandomVineboomHandler>();
-            DontDestroyOnLoad(rvh);
+            new GameObject("Random Vineboom Handler").AddComponent<RandomVineboomHandler>();
+        }
+
+        private void Start()
+        {
+            StartCoroutine(LoadStartupSound());
         }
 
         /// <summary>
@@ -55,5 +59,74 @@ namespace BSAmongusSusPlugin
 
         }
         #endregion
+
+        private IEnumerator LoadStartupSound()
+        {
+            var folderPath = Environment.CurrentDirectory + "\\UserData\\AmongusSusPlugin";
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            AudioClip? clip = null;
+            if (File.Exists(Path.Combine(folderPath, "vineboom.ogg")))
+            {
+                FileInfo fileInfo = new FileInfo(Path.Combine(folderPath, "startup.ogg"));
+                var web = GetRequest(fileInfo.FullName);
+                var operation = web.SendWebRequest();
+
+                while (!operation.isDone)
+                {
+                    yield return null;
+                }
+
+                if (web.isNetworkError || web.isHttpError)
+                {
+                    Plugin.Log.Error($"Failed to load file {name} with error {web.error}");
+                    clip = null;
+                }
+                else
+                {
+                    clip = DownloadHandlerAudioClip.GetContent(web);
+                }
+            }
+
+            yield return null;
+
+            var go = new GameObject("Hehehehaw exdee");
+            var source = go.AddComponent<AudioSource>();
+            source.loop = false;
+            source.playOnAwake = false;
+            source.clip = clip;
+            DontDestroyOnLoad(go);
+            float randPosOffset = 1.5f;
+            go.transform.position = new Vector3(
+                UnityEngine.Random.Range(randPosOffset * -1, randPosOffset),
+                UnityEngine.Random.Range(randPosOffset * -1, randPosOffset),
+                UnityEngine.Random.Range(randPosOffset * -1, randPosOffset)
+            );
+            source.Play();
+
+            yield return new WaitForSecondsRealtime(clip.length + 1);
+
+            Destroy(go);
+        }
+
+        // Stolen from https://github.com/Meivyn/SoundReplacer/blob/main/SoundReplacer/SoundLoader.cs
+        private static UnityWebRequest GetRequest(string fullPath)
+        {
+            var fileUrl = "file:///" + fullPath;
+            var fileInfo = new FileInfo(fullPath);
+            var extension = fileInfo.Extension;
+            switch (extension)
+            {
+                case ".ogg":
+                    return UnityWebRequestMultimedia.GetAudioClip(fileUrl, AudioType.OGGVORBIS);
+                case ".mp3":
+                    return UnityWebRequestMultimedia.GetAudioClip(fileUrl, AudioType.MPEG);
+                case ".wav":
+                    return UnityWebRequestMultimedia.GetAudioClip(fileUrl, AudioType.WAV);
+                default:
+                    return UnityWebRequestMultimedia.GetAudioClip(fileUrl, AudioType.UNKNOWN);
+            }
+        }
     }
 }

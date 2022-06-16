@@ -12,12 +12,29 @@ namespace BSAmongusSusPlugin
 {
     public class RandomVineboomHandler : MonoBehaviour
     {
-        private void Start()
+        public static RandomVineboomHandler Instance { get; private set; }
+
+        private void Awake()
         {
-            StartCoroutine(LoadSounds());
+            // For this particular MonoBehaviour, we only want one instance to exist at any time, so store a reference to it in a static property
+            //   and destroy any that are created while one already exists.
+            if (Instance != null)
+            {
+                Plugin.Log?.Warn($"Instance of {GetType().Name} already exists, destroying.");
+                GameObject.DestroyImmediate(this);
+                return;
+            }
+            GameObject.DontDestroyOnLoad(this); // Don't destroy this object on scene changes
+            Instance = this;
+            Plugin.Log?.Debug($"{name}: Awake()");
         }
 
-        private IEnumerator LoadSounds()
+        private void Start()
+        {
+            StartCoroutine(LoadSound());
+        }
+
+        private IEnumerator LoadSound()
         {
             var folderPath = Environment.CurrentDirectory + "\\UserData\\AmongusSusPlugin";
             if (!Directory.Exists(folderPath))
@@ -70,7 +87,6 @@ namespace BSAmongusSusPlugin
             }
         }
 
-
         private IEnumerator DoRandomDelayVineboomSound(int minSeconds, int maxSeconds, float randPosOffset, AudioClip? clip)
         {
             var go = new GameObject("Hehehehaw");
@@ -82,6 +98,7 @@ namespace BSAmongusSusPlugin
 
             while (true)
             {
+                yield return new WaitForSeconds(UnityEngine.Random.Range(minSeconds, maxSeconds));
                 if (clip != null)
                 {
                     go.transform.position = new Vector3(
@@ -91,7 +108,6 @@ namespace BSAmongusSusPlugin
                     );
                     source.Play();
                 }
-                yield return new WaitForSeconds(UnityEngine.Random.Range(minSeconds, maxSeconds));
             }
         }
     }
